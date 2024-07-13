@@ -47,7 +47,46 @@ PS2. For EU Control Plane deployment you have to modify the `<distributionManage
 </distributionManagement>
 ```
 
-##  Release notes [HERE](https://github.com/mulesoft-consulting/json-logger/blob/mule-4.x/json-logger/README.md)
+##  Release notes
+
+### 2.2.0 version - Release notes
+
+* Updated to support Java 17
+* Upgraded dependencies to fix known vulnerabilities
+
+### 2.1.0 version - Release notes
+
+* Minimum supported mule runtime 4.3
+* Upgraded dependencies to fix known vulnerabilities
+
+### 2.0.1 version - Release notes
+
+Bug fixes:
+* Added support for large payloads
+
+### 2.0.0 version - Release notes
+
+New features:
+* External Destinations
+* Data masking
+
+Improvements:
+* Field ordering
+
+More details in the coming blog post (stay tuned!)
+
+### 1.1.0 version - Release notes
+
+New features:
+* Scoped loggers to capture "scope bound elapsed time". Great for performance tracking of specific components (e.g. outbound calls)
+* Added "Parse content fields in json output" flag so that content fields can become part of final JSON output rather than a "stringified version" of the content
+
+Improvements:
+* Removed Guava and caching in general with a more efficient handling of timers (for elapsed time)
+* Optimized generation of JSON output
+* Code optimizations
+* Minimized dependency footprint (down from ~23MB to ~13MB)
+* Optimized parsing of TypedValue content fields
 
 ## Author
 
@@ -55,4 +94,5 @@ PS2. For EU Control Plane deployment you have to modify the `<distributionManage
 
 ## Support disclaimer
 
-In case you haven't noticed the type of license for the source code, this is provided as a side project under MIT open source license which means it won't be officially supported by MuleSoft as it is considered a custom connector. 
+This extension is based on code developed by Andres Ramirez. It is a custom connector and it is provided under open source license.
+It is not officially supported by MuleSoft/Salesforce or anyone else.
