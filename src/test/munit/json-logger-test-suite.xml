@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+    xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+    xmlns:json-logger="http://www.mulesoft.org/schema/mule/json-logger"
+    xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+    xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+        http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+        http://www.mulesoft.org/schema/mule/json-logger http://www.mulesoft.org/schema/mule/json-logger/current/mule-json-logger.xsd">
+
+    <import doc:id="fac87cfc-540c-4184-8021-0589908154a7" doc:name="Import" file="test-mule-config.xml" />
+
+    <munit:config name="json-logger-test-suite.xml" />
+
+    <munit:test description="Test" doc:id="5b060d47-d4cf-49c5-8ab1-1be81eeccbcf"
+        name="json-logger-test-suite-test-logger-test">
+        <munit:execution>
+            <flow-ref doc:id="5cf7e93b-6cb6-441f-9b6c-8b8e96a8ad62" doc:name="test-logger" name="test-logger" />
+        </munit:execution>
+        <munit:validation>
+            <munit-tools:verify-call doc:id="f5fdfcc8-2973-4b45-aeb4-703e9634a422"
+                doc:name="Set Payload" processor="set-payload">
+                <munit-tools:with-attributes>
+                    <munit-tools:with-attribute attributeName="doc:id"
+                        whereValue="89ac164e-c37f-4b11-ad47-e30f4be9f09a" />
+                </munit-tools:with-attributes>
+            </munit-tools:verify-call>
+        </munit:validation>
+    </munit:test>
+
+</mule>
