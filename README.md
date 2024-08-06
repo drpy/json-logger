@@ -1,4 +1,4 @@
-# JSON Logger - Mule 4
+# JSON Logger
 
 Drop-in replacement for default Mule Logger that outputs a JSON structure based on a predefined JSON schema.
 
@@ -22,37 +22,117 @@ In a nutshell, by defining the output JSON schema as well as providing some addi
 
 ## Installation
 
-Please check these blogposts for more details:
+Add this dependency to your application pom.xml
+
+```
+<groupId>cloud.anypoint</groupId>
+<artifactId>json-logger</artifactId>
+<version>2.2.1</version>
+<classifier>mule-plugin</classifier>
+```
+
+### Local Exchange Deployment
+
+If you want to deploy JSON Logger to your organization's Exchange, you need to follow these steps:
+1. Update the `groupId` in pom.xml to the org id of your target business group (instead of `cloud.anypoint`).
+2. Add the Exchange Mule Maven Plugin to the plugins section of your pom.xml (don't forget to add a suitable version number, e.g., `0.0.23` as of the time of writing):
+```
+<plugin>
+    <groupId>org.mule.tools.maven</groupId>
+    <artifactId>exchange-mule-maven-plugin</artifactId>
+    <version>${exchange.mule.maven.plugin.version}</version>
+    <executions>
+        <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+                <goal>exchange-pre-deploy</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>deploy</id>
+            <phase>deploy</phase>
+            <goals>
+                <goal>exchange-deploy</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
+3. Add a `<distributionManagement>` element to your pom.xml (note the `eu1.` which is required only for the EU management plane):
+```
+<distributionManagement>
+    <repository>
+        <id>anypoint-exchange-v3</id>
+        <name>Anypoint Exchange V3</name>
+        <url>https://maven.[eu1.]anypoint.mulesoft.com/api/v3/organizations/${project.groupId}/maven</url>
+        <layout>default</layout>
+    </repository>
+</distributionManagement>
+```
+Also make sure, you have your credentials set up in your settings.xml accordingly (matching the repository id in this snippet).
+4. Execute `mvn clean deploy`
+
+Please also check these blogposts for more details:
 
 PART 1: https://blogs.mulesoft.com/dev/anypoint-platform-dev/json-logging-in-mule-4-getting-the-most-out-of-your-logs/
 
 PART 2: https://blogs.mulesoft.com/dev/api-dev/json-logging-in-mule-4/
 
-Running the provided deployment script will deploy JSON Logger to your Organization's Exchange:
->e.g. ./deploy-to-exchange.sh <ANYPOINT_ORG_ID>
+##  Release notes
 
-PS1. You can only use the _deploy.sh_ script once (unless you manually delete the previous asset from your exchange within 7 days of deployment or increase the version in the pom.xml) as you can't deploy the same version to Exchange
+### 2.2.1 version - Release notes
 
-PS2. For EU Control Plane deployment you have to modify the `<distributionManagement>` element inide the json-logger/pom.xml in the following way:
+* Reorganized folder structure
+* Added Apache 2 license
+* Removed deployment script
+* Updated README to cover manual exchange deployment
 
-```
-<distributionManagement>
-  <!-- Target Anypoint Organization Repository -->
-    <repository>
-      <id>Exchange2</id>
-        <name>Exchange2 Repository</name>
-        <url>https://maven.eu1.anypoint.mulesoft.com/api/v1/organizations/${project.groupId}/maven</url>
-        <layout>default</layout>
-    </repository>
-</distributionManagement>
-```
+### 2.2.0 version - Release notes
 
-##  Release notes [HERE](https://github.com/mulesoft-consulting/json-logger/blob/mule-4.x/json-logger/README.md)
+* Updated to support Java 17
+* Upgraded dependencies to fix known vulnerabilities
 
-## Author
+### 2.1.0 version - Release notes
 
-* **Andres Ramirez** [Slack: @andres.ramirez / Email: andres.ramirez@mulesoft.com]
+* Minimum supported mule runtime 4.3
+* Upgraded dependencies to fix known vulnerabilities
+
+### 2.0.1 version - Release notes
+
+Bug fixes:
+* Added support for large payloads
+
+### 2.0.0 version - Release notes
+
+New features:
+* External Destinations
+* Data masking
+
+Improvements:
+* Field ordering
+
+More details in the coming blog post (stay tuned!)
+
+### 1.1.0 version - Release notes
+
+New features:
+* Scoped loggers to capture "scope bound elapsed time". Great for performance tracking of specific components (e.g. outbound calls)
+* Added "Parse content fields in json output" flag so that content fields can become part of final JSON output rather than a "stringified version" of the content
+
+Improvements:
+* Removed Guava and caching in general with a more efficient handling of timers (for elapsed time)
+* Optimized generation of JSON output
+* Code optimizations
+* Minimized dependency footprint (down from ~23MB to ~13MB)
+* Optimized parsing of TypedValue content fields
+
+## Authors
+
+* **Andres Ramirez** [Email: andres.ramirez@mulesoft.com] (original version)
+* **Matthias Transier** [Email: matthias.transier@gmail.com] (update to Java 17)
 
 ## Support disclaimer
 
-In case you haven't noticed the type of license for the source code, this is provided as a side project under MIT open source license which means it won't be officially supported by MuleSoft as it is considered a custom connector. 
+This extension is based on code developed by Andres Ramirez. It is a custom connector and it is provided under open source license.
+It is not officially supported by MuleSoft/Salesforce or anyone else.
