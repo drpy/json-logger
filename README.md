@@ -81,6 +81,12 @@ PART 2: https://blogs.mulesoft.com/dev/api-dev/json-logging-in-mule-4/
 
 ##  Release notes
 
+### 2.2.2 version - Release notes
+
+* Replaced joda-time by JDK Date and Time API
+* Upgraded depdendencies
+* Removed unused dependencies
+
 ### 2.2.1 version - Release notes
 
 * Reorganized folder structure

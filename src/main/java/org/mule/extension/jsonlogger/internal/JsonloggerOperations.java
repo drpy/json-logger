@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.joda.time.DateTime;
 import org.mule.extension.jsonlogger.api.pojos.LoggerProcessor;
 import org.mule.extension.jsonlogger.api.pojos.Priority;
 import org.mule.extension.jsonlogger.api.pojos.ScopeTracePoint;
@@ -38,6 +37,10 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.io.InputStream;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
@@ -74,6 +77,9 @@ public class JsonloggerOperations {
     @Inject
     private TransformationService transformationService;
 
+    // Date Formatter for log entries
+    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(System.getProperty("json.logger.dateformat", ""));
+    
     /**
      * Log a new entry
      */
@@ -139,7 +145,8 @@ public class JsonloggerOperations {
                                 }
                                 if (v.getClass().getCanonicalName().equals("org.mule.runtime.api.metadata.TypedValue")) {
                                     LOGGER.debug("org.mule.runtime.api.metadata.TypedValue type was found for field: " + k);
-                                    TypedValue<InputStream> typedVal = (TypedValue<InputStream>) v;
+                                    @SuppressWarnings("unchecked")
+									TypedValue<InputStream> typedVal = (TypedValue<InputStream>) v;
                                     LOGGER.debug("Parsing TypedValue for field " + k);
 
                                     LOGGER.debug("TypedValue MediaType: " + typedVal.getDataType().getMediaType());
@@ -402,7 +409,7 @@ public class JsonloggerOperations {
         locationInfo.put("rootContainer", location.getRootContainerName());
         locationInfo.put("component", location.getComponentIdentifier().getIdentifier().toString());
         locationInfo.put("fileName", location.getFileName().orElse(""));
-        locationInfo.put("lineInFile", String.valueOf(location.getLineInFile().orElse(null)));
+        locationInfo.put("lineInFile", String.valueOf(location.getLine().orElse(-1)));
         return locationInfo;
     }
 
@@ -412,10 +419,11 @@ public class JsonloggerOperations {
         - DateTime: Defaults to ISO format
         - TimeZone: Defaults to UTC. Refer to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for valid timezones
     */
-        DateTime dateTime = new DateTime(loggerTimestamp).withZone(org.joda.time.DateTimeZone.forID(System.getProperty("json.logger.timezone", "UTC")));
+        ZonedDateTime dateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(loggerTimestamp), 
+        		ZoneId.of(System.getProperty("json.logger.timezone", "UTC")));
         String timestamp = dateTime.toString();
         if (System.getProperty("json.logger.dateformat") != null && !System.getProperty("json.logger.dateformat").equals("")) {
-            timestamp = dateTime.toString(System.getProperty("json.logger.dateformat"));
+            timestamp = dateTimeFormatter.format(dateTime);
         }
         return timestamp;
     }
