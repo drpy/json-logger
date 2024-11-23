@@ -138,21 +138,7 @@
         <dependency>
             <groupId>com.mulesoft.muleesb.modules</groupId>
             <artifactId>anypoint-mq-rest-client</artifactId>
-            <version>4.0.13-1.fix-race-condition</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>async-http-client</artifactId>
-                    <groupId>com.ning</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-core</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.google.code.gson</groupId>
-                    <artifactId>gson</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>4.0.12</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
