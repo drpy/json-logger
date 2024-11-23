@@ -1,6 +1,5 @@
 package org.mule.extension.jsonlogger.internal.destinations;
 
-import com.mule.extensions.amqp.api.message.AmqpMessageBuilder;
 import com.mule.extensions.amqp.api.message.AmqpProperties;
 import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
@@ -9,16 +8,14 @@ import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.reference.ConfigReference;
-import org.mule.runtime.extension.api.client.DefaultOperationParameters;
 import org.mule.runtime.extension.api.client.ExtensionsClient;
-import org.mule.runtime.extension.api.client.OperationParameters;
+import org.mule.runtime.extension.api.client.OperationParameterizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 import static org.mule.runtime.api.metadata.DataType.JSON_STRING;
 
@@ -72,13 +69,12 @@ public class AMQPDestination implements Destination {
     @Override
     public void sendToExternalDestination(String finalLog) {
         try {
-            OperationParameters parameters = DefaultOperationParameters.builder().configName(this.amqpConfigurationRef)
-                    .addParameter("exchangeName", this.exchangeDestination)
-                    .addParameter("messageBuilder", AmqpMessageBuilder.class, DefaultOperationParameters.builder()
-                            .addParameter("body", new TypedValue<>(finalLog, JSON_STRING))
-                            .addParameter("properties", new AmqpProperties()))
-                    .build();
-            extensionsClient.executeAsync("AMQP", "publish", parameters);
+        	Consumer<OperationParameterizer> parameters = operationParameterizer ->
+        		operationParameterizer.withConfigRef(this.amqpConfigurationRef)
+        			.withParameter("exchangeName", this.exchangeDestination)
+        			.withParameter("body", new TypedValue<>(finalLog, JSON_STRING))
+        			.withParameter("properties", new AmqpProperties());
+            extensionsClient.execute("AMQP", "publish", parameters);
         } catch (Exception e) {
             LOGGER.error("Error: " + e.getMessage());
             e.printStackTrace();
