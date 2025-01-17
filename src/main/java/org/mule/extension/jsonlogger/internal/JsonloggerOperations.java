@@ -79,7 +79,7 @@ public class JsonloggerOperations {
 
     // Date Formatter for log entries
     private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(System.getProperty("json.logger.dateformat", ""));
-    
+
     /**
      * Log a new entry
      */
@@ -146,7 +146,7 @@ public class JsonloggerOperations {
                                 if (v.getClass().getCanonicalName().equals("org.mule.runtime.api.metadata.TypedValue")) {
                                     LOGGER.debug("org.mule.runtime.api.metadata.TypedValue type was found for field: " + k);
                                     @SuppressWarnings("unchecked")
-									TypedValue<InputStream> typedVal = (TypedValue<InputStream>) v;
+                                    TypedValue<InputStream> typedVal = (TypedValue<InputStream>) v;
                                     LOGGER.debug("Parsing TypedValue for field " + k);
 
                                     LOGGER.debug("TypedValue MediaType: " + typedVal.getDataType().getMediaType());
@@ -420,7 +420,7 @@ public class JsonloggerOperations {
         - TimeZone: Defaults to UTC. Refer to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for valid timezones
     */
         ZonedDateTime dateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(loggerTimestamp), 
-        		ZoneId.of(System.getProperty("json.logger.timezone", "UTC")));
+                ZoneId.of(System.getProperty("json.logger.timezone", "UTC")));
         String timestamp = dateTime.toString();
         if (System.getProperty("json.logger.dateformat") != null && !System.getProperty("json.logger.dateformat").equals("")) {
             timestamp = dateTimeFormatter.format(dateTime);
