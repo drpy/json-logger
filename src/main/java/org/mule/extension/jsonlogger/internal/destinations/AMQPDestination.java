@@ -69,11 +69,11 @@ public class AMQPDestination implements Destination {
     @Override
     public void sendToExternalDestination(String finalLog) {
         try {
-        	Consumer<OperationParameterizer> parameters = operationParameterizer ->
-        		operationParameterizer.withConfigRef(this.amqpConfigurationRef)
-        			.withParameter("exchangeName", this.exchangeDestination)
-        			.withParameter("body", new TypedValue<>(finalLog, JSON_STRING))
-        			.withParameter("properties", new AmqpProperties());
+            Consumer<OperationParameterizer> parameters = operationParameterizer ->
+                operationParameterizer.withConfigRef(this.amqpConfigurationRef)
+                    .withParameter("exchangeName", this.exchangeDestination)
+                    .withParameter("body", new TypedValue<>(finalLog, JSON_STRING))
+                    .withParameter("properties", new AmqpProperties());
             extensionsClient.execute("AMQP", "publish", parameters);
         } catch (Exception e) {
             LOGGER.error("Error: " + e.getMessage());
