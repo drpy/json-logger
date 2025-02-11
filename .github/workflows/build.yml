@@ -21,6 +21,7 @@ jobs:
       uses: s4u/maven-settings-action@v3.1.0
       with:
         servers: '[{"id": "MuleRepository", "username": "${{ secrets.MULE_REPO_USER }}", "password": "${{ secrets.MULE_REPO_PASSWORD }}"}]'
+        mirrors: '[{"id": "MuleRepository", "mirrorOf": "maven-central", "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/"}]'
     - name: Build and test
       run: mvn -B verify
     - name: Update dependency graph
