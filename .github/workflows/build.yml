@@ -20,7 +20,6 @@ jobs:
     - name: maven-settings-action
       uses: s4u/maven-settings-action@v3.1.0
       with:
-        servers: '[{"id": "MuleRepository", "username": "${{ secrets.MULE_REPO_USER }}", "password": "${{ secrets.MULE_REPO_PASSWORD }}"}]'
-        mirrors: '[{"id": "MuleRepository", "name": "MuleSoft EE Nexus Repository", "mirrorOf": "maven-central", "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/"}]'
+        servers: '[{"id": "mulesoft-ee-releases", "username": "${{ secrets.MULE_REPO_USER }}", "password": "${{ secrets.MULE_REPO_PASSWORD }}"}]'
     - name: Build and test
       run: mvn -B verify
