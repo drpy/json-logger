@@ -163,6 +163,11 @@
             <name>MuleSoft Releases</name>
             <url>https://repository.mulesoft.org/releases/</url>
         </repository>
+        <repository>
+            <id>mulesoft-ee-releases</id>
+            <name>MuleSoft EE Releases</name>
+            <url>https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/</url>
+        </repository>
     </repositories>
 
     <distributionManagement>
