@@ -20,7 +20,7 @@ jobs:
     - name: maven-settings-action
       uses: s4u/maven-settings-action@v3.1.0
       with:
-        servers: '[{"id": "mulesoft-releases", "username": "${{ secrets.MULE_REPO_USER }}", "password": "${{ secrets.MULE_REPO_PASSWORD }}"}]'
+        servers: '[{"id": "MuleRepository", "username": "${{ secrets.MULE_REPO_USER }}", "password": "${{ secrets.MULE_REPO_PASSWORD }}"}]'
     - name: Build and test
       run: mvn -B verify
     - name: Update dependency graph
