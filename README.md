@@ -27,7 +27,7 @@ Add this dependency to your application pom.xml
 ```
 <groupId>cloud.anypoint</groupId>
 <artifactId>json-logger</artifactId>
-<version>2.2.2</version>
+<version>2.2.3</version>
 <classifier>mule-plugin</classifier>
 ```
 
@@ -80,6 +80,12 @@ PART 1: https://blogs.mulesoft.com/dev/anypoint-platform-dev/json-logging-in-mul
 PART 2: https://blogs.mulesoft.com/dev/api-dev/json-logging-in-mule-4/
 
 ##  Release notes
+
+### 2.2.3 version - Release notes
+
+* Made dw functions more robust
+* Updated MUnit
+* Started preparation of pipelines
 
 ### 2.2.2 version - Release notes
 
