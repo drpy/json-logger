@@ -1,5 +1,7 @@
 # JSON Logger
 
+[![Maven Central](https://img.shields.io/maven-central/v/cloud.anypoint/json-logger)](https://central.sonatype.com/artifact/cloud.anypoint/json-logger/overview)
+
 Drop-in replacement for default Mule Logger that outputs a JSON structure based on a predefined JSON schema.
 
 ## Why?
