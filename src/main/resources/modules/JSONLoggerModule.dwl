@@ -18,14 +18,14 @@ fun stringifyAny(inputData: Any) =
 fun stringifyNonJSON(inputData: Any) =
     dw::Runtime::try(() ->
         if (isEmpty(inputData.^) or
-            inputData.^mediaType == "application/json" or
-            inputData.^mediaType == "*/*")
+            inputData.^mimeType == "application/json" or
+            inputData.^mimeType == "*/*")
             inputData
-        else if (inputData.^mediaType == "application/xml" or
-                inputData.^mediaType == "application/dw")
-            write(inputData, inputData.^mediaType, {indent:false})
+        else if (inputData.^mimeType == "application/xml" or
+                inputData.^mimeType == "application/dw")
+            write(inputData, inputData.^mimeType, {indent:false})
         else
-            write(inputData, inputData.^mediaType)
+            write(inputData, inputData.^mimeType)
     ) match {
         case failed if !failed.success -> inputData.^raw
         else -> $.result
