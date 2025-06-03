@@ -29,9 +29,11 @@ Add this dependency to your application pom.xml
 ```
 <groupId>cloud.anypoint</groupId>
 <artifactId>json-logger</artifactId>
-<version>2.2.3</version>
+<version>3.0.1</version>
 <classifier>mule-plugin</classifier>
 ```
+
+If you want to send your logs to Anypoint MQ or a JMS queue, you need to add the corresponding dependencies to your implementation. Refer to the pom.xml file for guidance—it specifies these dependencies as optional. This approach allows the resulting application JAR to be approximately 10 MB smaller if queue connectivity is not required.
 
 ### Local Exchange Deployment
 
