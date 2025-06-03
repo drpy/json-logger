@@ -157,8 +157,8 @@
         <connection>scm:git:git@github.com:anypointcloud/json-logger.git</connection>
         <developerConnection>scm:git:git@github.com:anypointcloud/json-logger.git</developerConnection>
         <url>https://github.com/anypointcloud/json-logger</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <repositories>
         <repository>
