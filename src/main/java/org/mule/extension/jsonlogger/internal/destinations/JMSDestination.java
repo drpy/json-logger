@@ -1,6 +1,13 @@
 package org.mule.extension.jsonlogger.internal.destinations;
 
-import org.mule.extensions.jms.api.message.JmsMessageBuilder;
+import static org.mule.runtime.api.metadata.DataType.JSON_STRING;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.function.Consumer;
+
+import javax.inject.Inject;
+
 import org.mule.extensions.jms.api.message.JmsxProperties;
 import org.mule.runtime.api.metadata.TypedValue;
 import org.mule.runtime.extension.api.annotation.param.NullSafe;
@@ -9,19 +16,10 @@ import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.param.reference.ConfigReference;
-import org.mule.runtime.extension.api.client.DefaultOperationParameters;
 import org.mule.runtime.extension.api.client.ExtensionsClient;
-import org.mule.runtime.extension.api.client.OperationParameters;
+import org.mule.runtime.extension.api.client.OperationParameterizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import static org.mule.runtime.api.metadata.DataType.JSON_STRING;
 
 public class JMSDestination implements Destination {
 
@@ -73,14 +71,12 @@ public class JMSDestination implements Destination {
     @Override
     public void sendToExternalDestination(String finalLog) {
         try {
-            OperationParameters parameters = DefaultOperationParameters.builder().configName(this.jmsConfigurationRef)
-                    .addParameter("destination", this.queueDestination)
-                    .addParameter("messageBuilder", JmsMessageBuilder.class, DefaultOperationParameters.builder()
-                            .addParameter("body", new TypedValue<>(finalLog, JSON_STRING))
-                            .addParameter("jmsxProperties", new JmsxProperties())
-                            .addParameter("properties", new HashMap<String, Object>()))
-                    .build();
-            extensionsClient.executeAsync("JMS", "publish", parameters);
+            Consumer<OperationParameterizer> parameters = operationParameterizer -> operationParameterizer
+                    .withConfigRef(this.jmsConfigurationRef).withParameter("destination", this.queueDestination)
+                    .withParameter("body", new TypedValue<>(finalLog, JSON_STRING))
+                    .withParameter("jmsxProperties", new JmsxProperties())
+                    .withParameter("properties", new HashMap<String, Object>());
+            extensionsClient.execute("JMS", "publish", parameters);
         } catch (Exception e) {
             LOGGER.error("Error: " + e.getMessage());
             e.printStackTrace();
