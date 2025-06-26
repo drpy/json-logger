@@ -41,6 +41,18 @@ public class JMSDestination implements Destination {
     private String queueDestination;
 
     @Parameter
+    @Optional(defaultValue = "true")
+    @Summary("Whether or not the body outboundEncoding should be sent as a Message property")
+    @DisplayName("Send Encoding")
+    private boolean sendEncoding;
+
+    @Parameter
+    @Optional(defaultValue = "true")
+    @Summary("Whether or not the body content type should be sent as a property")
+    @DisplayName("Send Content-Type")
+    private boolean sendContentType;
+
+    @Parameter
     @Optional
     @NullSafe
     @Summary("Indicate which log categories should be send (e.g. [\"my.category\",\"another.category\"]). If empty, all will be send.")
@@ -72,8 +84,11 @@ public class JMSDestination implements Destination {
     public void sendToExternalDestination(String finalLog) {
         try {
             Consumer<OperationParameterizer> parameters = operationParameterizer -> operationParameterizer
-                    .withConfigRef(this.jmsConfigurationRef).withParameter("destination", this.queueDestination)
+                    .withConfigRef(this.jmsConfigurationRef)
+                    .withParameter("destination", this.queueDestination)
                     .withParameter("body", new TypedValue<>(finalLog, JSON_STRING))
+                    .withParameter("sendEncoding", sendEncoding)
+                    .withParameter("sendContentType", sendContentType)
                     .withParameter("jmsxProperties", new JmsxProperties())
                     .withParameter("properties", new HashMap<String, Object>());
             extensionsClient.execute("JMS", "publish", parameters);
