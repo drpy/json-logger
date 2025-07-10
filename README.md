@@ -85,6 +85,11 @@ PART 2: https://blogs.mulesoft.com/dev/api-dev/json-logging-in-mule-4/
 
 ##  Release notes
 
+### 3.0.1 version - Release notes
+
+* Made queue dependencies optional to reduce size
+* Fixed dependencies with security alerts
+
 ### 2.2.3 version - Release notes
 
 * Made dw functions more robust
