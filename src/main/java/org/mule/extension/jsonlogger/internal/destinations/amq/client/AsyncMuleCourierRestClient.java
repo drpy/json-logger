@@ -51,13 +51,13 @@ public class AsyncMuleCourierRestClient extends AbstractCourierRestClient {
 
     @Override
     protected Observable<Response> process(Request request) {
-        logProcessStart(request);
+        logProcessStart(request, null);
         return Observable.create(subscriber -> httpClient
                 .sendAsync(((MuleBasedRequest) request).getHttpRequest(), HttpRequestOptions.builder()
                            .responseTimeout(RESPONSE_TIMEOUT_MILLIS).followsRedirect(true).build())
                 .whenCompleteAsync((response, exception) -> {
                     if (exception != null) {
-                        logProcessError(request, exception);
+                        logProcessError(request, exception, null);
                         subscriber.onError(exception);
                     } else {
                         try {
