@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cloud.anypoint</groupId>
     <artifactId>json-logger</artifactId>
-    <version>3.0.1-SNAPSHOT</version>
+    <version>3.0.2-SNAPSHOT</version>
     <packaging>mule-extension</packaging>
     <name>JSON Logger</name>
 
@@ -175,8 +175,8 @@
     </dependencies>
 
     <scm>
-        <connection>scm:git:git@github.com:anypointcloud/json-logger.git</connection>
-        <developerConnection>scm:git:git@github.com:anypointcloud/json-logger.git</developerConnection>
+        <connection>scm:git:https://github.com/anypointcloud/json-logger.git</connection>
+        <developerConnection>scm:git:https://github.com/anypointcloud/json-logger.git</developerConnection>
         <url>https://github.com/anypointcloud/json-logger</url>
         <tag>HEAD</tag>
     </scm>
@@ -197,13 +197,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.1.0</version>
-                        <configuration>
-                            <gpgArguments>
-                                <arg>--pinentry-mode</arg>
-                                <arg>loopback</arg>
-                            </gpgArguments>
-                        </configuration>
+                        <version>3.2.8</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
