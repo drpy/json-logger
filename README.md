@@ -29,7 +29,7 @@ Add this dependency to your application pom.xml
 ```
 <groupId>cloud.anypoint</groupId>
 <artifactId>json-logger</artifactId>
-<version>3.0.1</version>
+<version>3.0.2</version>
 <classifier>mule-plugin</classifier>
 ```
 
@@ -84,6 +84,10 @@ PART 1: https://blogs.mulesoft.com/dev/anypoint-platform-dev/json-logging-in-mul
 PART 2: https://blogs.mulesoft.com/dev/api-dev/json-logging-in-mule-4/
 
 ##  Release notes
+
+### 3.0.2 version - Release notes
+
+* Bugfix for using commons-lang3 instead of commons-lang in pojos
 
 ### 3.0.1 version - Release notes
 
