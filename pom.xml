@@ -67,6 +67,7 @@
                     <sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>
                     <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
                     <targetPackage>org.mule.extension.jsonlogger.api.pojos</targetPackage>
+                    <useCommonsLang3>true</useCommonsLang3>
                 </configuration>
                 <executions>
                     <execution>
