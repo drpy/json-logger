@@ -23,4 +23,4 @@ jobs:
     # This build step does not need secrets
     # and can therefore be executed from any fork
     - name: Build only
-      run: mvn -B package -DskipTests
+      run: mvn -B clean install -DskipTests
