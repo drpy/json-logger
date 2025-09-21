@@ -25,8 +25,14 @@ jobs:
         servers: '[{"id": "mulesoft-ee-releases", "username": "${env.MULE_REPO_USER}", "password": "${env.MULE_REPO_PASSWORD}"}]'
         repositories: '[{"id": "mulesoft-ee-releases", "name": "MuleSoft EE Releases", "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/"}]'
 
-    - name: Build and test
+    - name: Build and optionally test when Mule EE secrets are available
       env:
         MULE_REPO_USER: ${{ secrets.MULE_REPO_USER }}
         MULE_REPO_PASSWORD: ${{ secrets.MULE_REPO_PASSWORD }}
-      run: mvn -B verify
+      run: |
+        if [[ -n "$MULE_REPO_USER" ]]; then
+          mvn -B clean verify
+        else
+          echo "::notice file=build.yml,title=Skipping Tests::Mule EE secrets not found. Skipping tests after build."
+          mvn -B clean install -DskipTests
+        fi
