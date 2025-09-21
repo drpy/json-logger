@@ -20,23 +20,19 @@ jobs:
         cache: maven
 
     - name: maven-settings-action
-      if: ${{ secrets.MULE_REPO_USER != '' && secrets.MULE_REPO_PASSWORD != '' }}
       uses: s4u/maven-settings-action@894661b3ddae382f1ae8edbeab60987e08cf0788 # commit hash references to v4.0.0
       with:
         servers: '[{"id": "mulesoft-ee-releases", "username": "${env.MULE_REPO_USER}", "password": "${env.MULE_REPO_PASSWORD}"}]'
         repositories: '[{"id": "mulesoft-ee-releases", "name": "MuleSoft EE Releases", "url": "https://repository.mulesoft.org/nexus-ee/content/repositories/releases-ee/"}]'
 
-    - name: Build and test
-      if: ${{ secrets.MULE_REPO_USER != '' && secrets.MULE_REPO_PASSWORD != '' }}
+    - name: Build and optionally test when Mule EE secrets are available
       env:
         MULE_REPO_USER: ${{ secrets.MULE_REPO_USER }}
         MULE_REPO_PASSWORD: ${{ secrets.MULE_REPO_PASSWORD }}
-      run: mvn -B clean verify
-
-
-    - name: Build only because of missing Mule EE secrets
-      if: ${{ secrets.MULE_REPO_USER == '' || secrets.MULE_REPO_PASSWORD == '' }}
-      env:
-        MULE_REPO_USER: ${{ secrets.MULE_REPO_USER }}
-        MULE_REPO_PASSWORD: ${{ secrets.MULE_REPO_PASSWORD }}
-      run: mvn -B clean install -DskipTests
+      run: |
+        if [[ -n "$MULE_REPO_USER" ]]; then
+          mvn -B clean verify
+        else
+          echo "::notice file=build.yml,title=Skipping Tests::Mule EE secrets not found. Skipping tests after build."
+          mvn -B clean install -DskipTests
+        fi
