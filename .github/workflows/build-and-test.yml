@@ -5,7 +5,7 @@ on:
     types: [created]
 
 jobs:
-  build-and-test:
+  build-and-test-from-comment:
     if: |
       github.event.issue.pull_request
       && startsWith(github.event.comment.body, '/run-tests')
@@ -16,8 +16,12 @@ jobs:
     steps:
       - name: Checkout PR Head
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
+        # comment out the ref to see what was checked out instead
+        #with:
+        #  ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Show git status and log
+        run: git status && git log
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -36,4 +40,4 @@ jobs:
         env:
           MULE_REPO_USER: ${{ secrets.MULE_REPO_USER }}
           MULE_REPO_PASSWORD: ${{ secrets.MULE_REPO_PASSWORD }}
-        run: mvn -B verify
+        run: mvn -B clean verify
