@@ -5,7 +5,7 @@ on:
     types: [created]
 
 jobs:
-  build-and-test:
+  build-and-test-from-comment:
     if: |
       github.event.issue.pull_request
       && startsWith(github.event.comment.body, '/run-tests')
@@ -36,4 +36,4 @@ jobs:
         env:
           MULE_REPO_USER: ${{ secrets.MULE_REPO_USER }}
           MULE_REPO_PASSWORD: ${{ secrets.MULE_REPO_PASSWORD }}
-        run: mvn -B verify
+        run: mvn -B clean verify
