@@ -53,7 +53,7 @@
             <plugin>
                 <groupId>org.jsonschema2pojo</groupId>
                 <artifactId>jsonschema2pojo-maven-plugin</artifactId>
-                <version>0.5.1</version>
+                <version>1.2.2</version>
                 <dependencies>
                     <dependency>
                         <groupId>io.github.mulesoft-consulting</groupId>
@@ -67,7 +67,7 @@
                     <sourceDirectory>${basedir}/src/main/resources/schema</sourceDirectory>
                     <outputDirectory>${project.build.directory}/generated-sources</outputDirectory>
                     <targetPackage>org.mule.extension.jsonlogger.api.pojos</targetPackage>
-                    <useCommonsLang3>true</useCommonsLang3>
+                    <usePrimitives>true</usePrimitives>
                 </configuration>
                 <executions>
                     <execution>
