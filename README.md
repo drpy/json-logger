@@ -29,7 +29,7 @@ Add this dependency to your application pom.xml
 ```
 <groupId>cloud.anypoint</groupId>
 <artifactId>json-logger</artifactId>
-<version>3.0.2</version>
+<version>3.1.1</version>
 <classifier>mule-plugin</classifier>
 ```
 
@@ -75,6 +75,7 @@ If you want to deploy JSON Logger to your organization's Exchange, you need to f
 </distributionManagement>
 ```
 Also make sure, you have your credentials set up in your settings.xml accordingly (matching the repository id in this snippet).
+
 4. Execute `mvn clean deploy`
 
 Please also check these blogposts for more details:
@@ -84,6 +85,19 @@ PART 1: https://blogs.mulesoft.com/dev/anypoint-platform-dev/json-logging-in-mul
 PART 2: https://blogs.mulesoft.com/dev/api-dev/json-logging-in-mule-4/
 
 ##  Release notes
+
+### 3.1.1 version - Release notes
+
+* Improved configuration handling
+* Code quality improvements
+* Updated MUnit tests
+* Updated dependencies
+* Removed indirect dependency on mule-jms-client
+
+### 3.1.0 version - Release notes
+
+* Added JSON serializer for JDK 8 datatypes
+* Updated dependencies
 
 ### 3.0.2 version - Release notes
 

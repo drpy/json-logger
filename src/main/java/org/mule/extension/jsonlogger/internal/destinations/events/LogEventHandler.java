@@ -2,7 +2,6 @@ package org.mule.extension.jsonlogger.internal.destinations.events;
 
 import com.lmax.disruptor.EventHandler;
 import org.mule.extension.jsonlogger.internal.destinations.Destination;
-import org.mule.extension.jsonlogger.internal.singleton.LogEventSingleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,15 +9,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 public class LogEventHandler implements EventHandler<LogEvent> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LogEventHandler.class);
 
     private Map<String,List<String>> aggregatedLogsPerConfig = new HashMap<String, List<String>>();
-    private Map<String, Destination> destinations = new HashMap<String, Destination>();
+    private ConcurrentMap<String, Destination> destinations;
 
-    public LogEventHandler (Map<String, Destination> destinations) {
+    public LogEventHandler(ConcurrentMap<String, Destination> destinations) {
         this.destinations = destinations;
     }
 
